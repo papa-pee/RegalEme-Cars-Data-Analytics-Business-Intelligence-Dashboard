@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
 import { DollarSign, TrendingUp, Car, RefreshCcw } from 'lucide-react';
+import exodusLogo from '@/assets/exodus-logo.png';
 import { Button } from '@/components/ui/button';
 import { DashboardData, Filters } from '@/types/data';
 import { aggregateData, formatCurrency, formatNumber } from '@/lib/dataProcessing';
@@ -36,12 +37,19 @@ export const Dashboard = ({ data, onReset }: DashboardProps) => {
       <div className="max-w-[1600px] mx-auto space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-display font-bold">
-              <span className="text-gold gold-glow">EXODUS</span>
-              <span className="text-foreground"> Cars</span>
-            </h1>
-            <p className="text-muted-foreground mt-1">Sales & Market Performance Dashboard</p>
+          <div className="flex items-center gap-4">
+            <img 
+              src={exodusLogo} 
+              alt="EXODUS Cars Logo" 
+              className="h-16 w-auto"
+            />
+            <div>
+              <h1 className="text-3xl font-display font-bold">
+                <span className="text-gold gold-glow">EXODUS</span>
+                <span className="text-foreground"> Cars</span>
+              </h1>
+              <p className="text-muted-foreground mt-1">Sales & Market Performance Dashboard</p>
+            </div>
           </div>
           <Button
             variant="outline"
