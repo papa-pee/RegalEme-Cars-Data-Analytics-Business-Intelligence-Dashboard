@@ -75,18 +75,21 @@ export const Dashboard = ({ data, onReset }: DashboardProps) => {
             value={formatCurrency(aggregated.totalRevenue)}
             icon={<DollarSign className="w-6 h-6" />}
             variant="gold"
+            trend={aggregated.revenueTrend || undefined}
           />
           <KPICard
             title="Total Profit"
             value={formatCurrency(aggregated.totalProfit)}
             icon={<TrendingUp className="w-6 h-6" />}
             variant="violet"
+            trend={aggregated.profitTrend || undefined}
           />
           <KPICard
             title="Units Sold"
             value={formatNumber(aggregated.totalUnits)}
             icon={<Car className="w-6 h-6" />}
             variant="cyan"
+            trend={aggregated.unitsTrend || undefined}
           />
         </div>
         
