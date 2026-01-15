@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import { DollarSign, TrendingUp, Car, RefreshCcw } from 'lucide-react';
 import exodusLogo from '@/assets/exodus-logo.png';
 import { Button } from '@/components/ui/button';
@@ -10,6 +10,7 @@ import { RevenueByCountryChart } from './RevenueByCountryChart';
 import { TopCarsChart } from './TopCarsChart';
 import { ProfitByBrandChart } from './ProfitByBrandChart';
 import { RevenueByCityChart } from './RevenueByCityChart';
+import { DrillDownModal, DrillDownData } from './DrillDownModal';
 
 interface DashboardProps {
   data: DashboardData;
@@ -26,11 +27,23 @@ const initialFilters: Filters = {
 
 export const Dashboard = ({ data, onReset }: DashboardProps) => {
   const [filters, setFilters] = useState<Filters>(initialFilters);
+  const [drillDownData, setDrillDownData] = useState<DrillDownData | null>(null);
+  const [isDrillDownOpen, setIsDrillDownOpen] = useState(false);
   
   const aggregated = useMemo(() => 
     aggregateData(data, filters),
     [data, filters]
   );
+
+  const handleDrillDown = useCallback((drillData: DrillDownData) => {
+    setDrillDownData(drillData);
+    setIsDrillDownOpen(true);
+  }, []);
+
+  const handleCloseDrillDown = useCallback(() => {
+    setIsDrillDownOpen(false);
+    setDrillDownData(null);
+  }, []);
   
   return (
     <div className="min-h-screen bg-background p-6 lg:p-8">
@@ -95,14 +108,26 @@ export const Dashboard = ({ data, onReset }: DashboardProps) => {
         
         {/* Charts Row 1 */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <RevenueByCountryChart data={aggregated.revenueByCountry} />
-          <TopCarsChart data={aggregated.topCars} />
+          <RevenueByCountryChart 
+            data={aggregated.revenueByCountry} 
+            onDrillDown={handleDrillDown}
+          />
+          <TopCarsChart 
+            data={aggregated.topCars} 
+            onDrillDown={handleDrillDown}
+          />
         </div>
         
         {/* Charts Row 2 */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <ProfitByBrandChart data={aggregated.profitByBrand} />
-          <RevenueByCityChart data={aggregated.revenueByCity} />
+          <ProfitByBrandChart 
+            data={aggregated.profitByBrand} 
+            onDrillDown={handleDrillDown}
+          />
+          <RevenueByCityChart 
+            data={aggregated.revenueByCity} 
+            onDrillDown={handleDrillDown}
+          />
         </div>
         
         {/* Footer */}
@@ -112,6 +137,14 @@ export const Dashboard = ({ data, onReset }: DashboardProps) => {
           </p>
         </div>
       </div>
+
+      {/* Drill-down Modal */}
+      <DrillDownModal
+        isOpen={isDrillDownOpen}
+        onClose={handleCloseDrillDown}
+        drillDownData={drillDownData}
+        dashboardData={data}
+      />
     </div>
   );
 };

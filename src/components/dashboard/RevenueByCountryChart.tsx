@@ -1,9 +1,11 @@
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import { ChartCard } from './ChartCard';
 import { formatCurrency } from '@/lib/dataProcessing';
+import { DrillDownData } from './DrillDownModal';
 
 interface RevenueByCountryChartProps {
   data: { country: string; revenue: number; percentage: number }[];
+  onDrillDown?: (data: DrillDownData) => void;
 }
 
 const COLORS = ['hsl(188 94% 43%)', 'hsl(263 70% 50%)'];
@@ -16,17 +18,28 @@ const CustomTooltip = ({ active, payload }: any) => {
         <p className="text-sm font-medium text-foreground">{data.country}</p>
         <p className="text-sm text-cyan">{formatCurrency(data.revenue)}</p>
         <p className="text-xs text-muted-foreground">{data.percentage.toFixed(1)}% of total</p>
+        <p className="text-xs text-muted-foreground mt-2 italic">Click for details</p>
       </div>
     );
   }
   return null;
 };
 
-export const RevenueByCountryChart = ({ data }: RevenueByCountryChartProps) => {
+export const RevenueByCountryChart = ({ data, onDrillDown }: RevenueByCountryChartProps) => {
+  const handleClick = (entry: any) => {
+    if (onDrillDown && entry) {
+      onDrillDown({
+        type: 'country',
+        label: 'Country',
+        value: entry.country,
+      });
+    }
+  };
+
   return (
     <ChartCard
       title="Revenue by Country"
-      subtitle="Market performance comparison"
+      subtitle="Market performance comparison • Click to drill down"
       className="h-full"
     >
       <div className="flex items-center h-full">
@@ -42,6 +55,8 @@ export const RevenueByCountryChart = ({ data }: RevenueByCountryChartProps) => {
                 paddingAngle={4}
                 dataKey="revenue"
                 strokeWidth={0}
+                onClick={(_, index) => handleClick(data[index])}
+                className="cursor-pointer"
               >
                 {data.map((_, index) => (
                   <Cell 
@@ -58,7 +73,11 @@ export const RevenueByCountryChart = ({ data }: RevenueByCountryChartProps) => {
         
         <div className="w-1/2 space-y-4">
           {data.map((item, index) => (
-            <div key={item.country} className="flex items-center gap-3">
+            <div 
+              key={item.country} 
+              className="flex items-center gap-3 cursor-pointer hover:bg-muted/30 rounded-lg p-2 -m-2 transition-colors"
+              onClick={() => handleClick(item)}
+            >
               <div 
                 className="w-3 h-3 rounded-full"
                 style={{ backgroundColor: COLORS[index % COLORS.length] }}
