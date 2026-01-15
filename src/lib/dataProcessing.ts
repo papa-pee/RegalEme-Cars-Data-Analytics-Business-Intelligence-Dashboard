@@ -1,5 +1,5 @@
 import * as XLSX from 'xlsx';
-import { Dealer, Model, Sale, DashboardData, Filters, AggregatedData } from '@/types/data';
+import { Dealer, Model, Sale, DashboardData, Filters, AggregatedData, TrendData } from '@/types/data';
 
 export const parseExcelFile = async (file: File): Promise<DashboardData> => {
   return new Promise((resolve, reject) => {
@@ -114,6 +114,72 @@ export const applyFilters = (data: DashboardData, filters: Filters): Sale[] => {
   return filteredSales;
 };
 
+const calculateTrends = (
+  data: DashboardData,
+  filters: Filters,
+  currentSales: Sale[],
+  currentRevenue: number,
+  currentProfit: number,
+  currentUnits: number
+): { revenueTrend: TrendData | null; profitTrend: TrendData | null; unitsTrend: TrendData | null } => {
+  // Determine the time period for comparison
+  let periodStart: Date | null = null;
+  let periodEnd: Date | null = null;
+  
+  if (filters.dateRange.start && filters.dateRange.end) {
+    // Use filter date range
+    periodStart = filters.dateRange.start;
+    periodEnd = filters.dateRange.end;
+  } else if (currentSales.length > 0) {
+    // Use data's natural date range - split in half
+    const dates = currentSales.map(s => s.Date.getTime()).sort((a, b) => a - b);
+    periodEnd = new Date(Math.max(...dates));
+    periodStart = new Date(Math.min(...dates));
+  }
+  
+  if (!periodStart || !periodEnd) {
+    return { revenueTrend: null, profitTrend: null, unitsTrend: null };
+  }
+  
+  // Calculate previous period of same duration
+  const periodDuration = periodEnd.getTime() - periodStart.getTime();
+  const previousPeriodEnd = new Date(periodStart.getTime() - 1);
+  const previousPeriodStart = new Date(previousPeriodEnd.getTime() - periodDuration);
+  
+  // Apply same filters but with previous period dates
+  const previousFilters: Filters = {
+    ...filters,
+    dateRange: {
+      start: previousPeriodStart,
+      end: previousPeriodEnd,
+    },
+  };
+  
+  const previousSales = applyFilters(data, previousFilters);
+  
+  const previousRevenue = previousSales.reduce((sum, s) => sum + s.TotalPrice, 0);
+  const previousProfit = previousSales.reduce((sum, s) => sum + s.TotalProfit, 0);
+  const previousUnits = previousSales.reduce((sum, s) => sum + s.Quantity, 0);
+  
+  // Calculate percentage changes
+  const calculateChange = (current: number, previous: number): TrendData | null => {
+    if (previous === 0) {
+      return current > 0 ? { value: 100, positive: true } : null;
+    }
+    const change = ((current - previous) / previous) * 100;
+    return {
+      value: Math.round(Math.abs(change) * 10) / 10,
+      positive: change >= 0,
+    };
+  };
+  
+  return {
+    revenueTrend: calculateChange(currentRevenue, previousRevenue),
+    profitTrend: calculateChange(currentProfit, previousProfit),
+    unitsTrend: calculateChange(currentUnits, previousUnits),
+  };
+};
+
 export const aggregateData = (data: DashboardData, filters: Filters): AggregatedData => {
   const filteredSales = applyFilters(data, filters);
   
@@ -121,6 +187,9 @@ export const aggregateData = (data: DashboardData, filters: Filters): Aggregated
   const totalRevenue = filteredSales.reduce((sum, s) => sum + s.TotalPrice, 0);
   const totalProfit = filteredSales.reduce((sum, s) => sum + s.TotalProfit, 0);
   const totalUnits = filteredSales.reduce((sum, s) => sum + s.Quantity, 0);
+  
+  // Calculate previous period metrics for trends
+  const { revenueTrend, profitTrend, unitsTrend } = calculateTrends(data, filters, filteredSales, totalRevenue, totalProfit, totalUnits);
   
   // Revenue by Country
   const revenueByCountryMap = new Map<string, number>();
@@ -192,6 +261,9 @@ export const aggregateData = (data: DashboardData, filters: Filters): Aggregated
     totalRevenue,
     totalProfit,
     totalUnits,
+    revenueTrend,
+    profitTrend,
+    unitsTrend,
     revenueByCountry,
     topCars,
     profitByBrand,

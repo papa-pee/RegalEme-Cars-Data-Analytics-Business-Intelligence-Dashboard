@@ -43,10 +43,18 @@ export interface Filters {
   };
 }
 
+export interface TrendData {
+  value: number;
+  positive: boolean;
+}
+
 export interface AggregatedData {
   totalRevenue: number;
   totalProfit: number;
   totalUnits: number;
+  revenueTrend: TrendData | null;
+  profitTrend: TrendData | null;
+  unitsTrend: TrendData | null;
   revenueByCountry: { country: string; revenue: number; percentage: number }[];
   topCars: { model: string; brand: string; quantity: number }[];
   profitByBrand: { brand: string; profit: number; quantity: number }[];
