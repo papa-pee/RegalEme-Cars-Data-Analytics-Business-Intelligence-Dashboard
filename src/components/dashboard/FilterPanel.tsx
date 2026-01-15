@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { format } from 'date-fns';
+import { format, subDays, startOfMonth, startOfYear, endOfMonth, endOfYear } from 'date-fns';
 import { Filter, X, CalendarIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
@@ -18,6 +18,30 @@ import {
 import { DashboardData, Filters } from '@/types/data';
 import { cn } from '@/lib/utils';
 import type { DateRange } from 'react-day-picker';
+
+type DatePreset = {
+  label: string;
+  getValue: () => { from: Date; to: Date };
+};
+
+const datePresets: DatePreset[] = [
+  {
+    label: 'Last 7 days',
+    getValue: () => ({ from: subDays(new Date(), 7), to: new Date() }),
+  },
+  {
+    label: 'Last 30 days',
+    getValue: () => ({ from: subDays(new Date(), 30), to: new Date() }),
+  },
+  {
+    label: 'This month',
+    getValue: () => ({ from: startOfMonth(new Date()), to: endOfMonth(new Date()) }),
+  },
+  {
+    label: 'This year',
+    getValue: () => ({ from: startOfYear(new Date()), to: endOfYear(new Date()) }),
+  },
+];
 
 interface FilterPanelProps {
   data: DashboardData;
@@ -205,15 +229,34 @@ export const FilterPanel = ({ data, filters, onFiltersChange }: FilterPanelProps
             className="w-auto p-0 bg-navy-light border-border/50" 
             align="start"
           >
-            <Calendar
-              initialFocus
-              mode="range"
-              defaultMonth={dateRange?.from}
-              selected={dateRange}
-              onSelect={handleDateRangeChange}
-              numberOfMonths={2}
-              className={cn("p-3 pointer-events-auto")}
-            />
+            <div className="flex">
+              <div className="flex flex-col gap-1 p-3 border-r border-border/30">
+                <p className="text-xs font-medium text-muted-foreground mb-2">Quick Select</p>
+                {datePresets.map((preset) => (
+                  <Button
+                    key={preset.label}
+                    variant="ghost"
+                    size="sm"
+                    className="justify-start text-sm h-8 hover:bg-gold/10 hover:text-gold"
+                    onClick={() => {
+                      const range = preset.getValue();
+                      handleDateRangeChange({ from: range.from, to: range.to });
+                    }}
+                  >
+                    {preset.label}
+                  </Button>
+                ))}
+              </div>
+              <Calendar
+                initialFocus
+                mode="range"
+                defaultMonth={dateRange?.from}
+                selected={dateRange}
+                onSelect={handleDateRangeChange}
+                numberOfMonths={2}
+                className={cn("p-3 pointer-events-auto")}
+              />
+            </div>
           </PopoverContent>
         </Popover>
       </div>
