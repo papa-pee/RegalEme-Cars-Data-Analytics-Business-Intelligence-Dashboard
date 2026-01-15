@@ -1,9 +1,11 @@
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Tooltip } from 'recharts';
 import { ChartCard } from './ChartCard';
 import { formatCurrency } from '@/lib/dataProcessing';
+import { DrillDownData } from './DrillDownModal';
 
 interface RevenueByCityChartProps {
   data: { city: string; country: string; revenue: number }[];
+  onDrillDown?: (data: DrillDownData) => void;
 }
 
 const CustomTooltip = ({ active, payload }: any) => {
@@ -14,20 +16,32 @@ const CustomTooltip = ({ active, payload }: any) => {
         <p className="text-sm font-medium text-foreground">{data.city}</p>
         <p className="text-xs text-muted-foreground mb-1">{data.country}</p>
         <p className="text-sm text-cyan">{formatCurrency(data.revenue)}</p>
+        <p className="text-xs text-muted-foreground mt-2 italic">Click for details</p>
       </div>
     );
   }
   return null;
 };
 
-export const RevenueByCityChart = ({ data }: RevenueByCityChartProps) => {
+export const RevenueByCityChart = ({ data, onDrillDown }: RevenueByCityChartProps) => {
   // Take top 8 cities for visibility
   const displayData = data.slice(0, 8);
+
+  const handleBarClick = (entry: any) => {
+    if (onDrillDown && entry) {
+      onDrillDown({
+        type: 'city',
+        label: 'City',
+        value: entry.city,
+        additionalInfo: entry.country,
+      });
+    }
+  };
   
   return (
     <ChartCard
       title="Revenue by City"
-      subtitle="Top performing cities"
+      subtitle="Top performing cities • Click to drill down"
       className="h-full"
     >
       <div className="h-[280px]">
@@ -63,6 +77,8 @@ export const RevenueByCityChart = ({ data }: RevenueByCityChartProps) => {
               fill="url(#cyanGradient)"
               radius={[4, 4, 0, 0]}
               barSize={24}
+              onClick={handleBarClick}
+              className="cursor-pointer hover:opacity-80 transition-opacity"
             />
           </BarChart>
         </ResponsiveContainer>

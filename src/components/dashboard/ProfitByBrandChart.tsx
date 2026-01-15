@@ -1,9 +1,11 @@
 import { ComposedChart, Bar, Line, XAxis, YAxis, ResponsiveContainer, Tooltip, Legend } from 'recharts';
 import { ChartCard } from './ChartCard';
 import { formatCurrency, formatNumber } from '@/lib/dataProcessing';
+import { DrillDownData } from './DrillDownModal';
 
 interface ProfitByBrandChartProps {
   data: { brand: string; profit: number; quantity: number }[];
+  onDrillDown?: (data: DrillDownData) => void;
 }
 
 const CustomTooltip = ({ active, payload, label }: any) => {
@@ -18,17 +20,29 @@ const CustomTooltip = ({ active, payload, label }: any) => {
               : formatNumber(entry.value)}
           </p>
         ))}
+        <p className="text-xs text-muted-foreground mt-2 italic">Click for details</p>
       </div>
     );
   }
   return null;
 };
 
-export const ProfitByBrandChart = ({ data }: ProfitByBrandChartProps) => {
+export const ProfitByBrandChart = ({ data, onDrillDown }: ProfitByBrandChartProps) => {
+  const handleClick = (entry: any) => {
+    if (onDrillDown && entry?.activePayload?.[0]?.payload) {
+      const brandData = entry.activePayload[0].payload;
+      onDrillDown({
+        type: 'brand',
+        label: 'Brand',
+        value: brandData.brand,
+      });
+    }
+  };
+
   return (
     <ChartCard
       title="Profit vs Quantity by Brand"
-      subtitle="Brand performance and efficiency"
+      subtitle="Brand performance and efficiency • Click to drill down"
       className="h-full"
     >
       <div className="h-[280px]">
@@ -36,6 +50,8 @@ export const ProfitByBrandChart = ({ data }: ProfitByBrandChartProps) => {
           <ComposedChart
             data={data}
             margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+            onClick={handleClick}
+            className="cursor-pointer"
           >
             <XAxis 
               dataKey="brand" 
@@ -69,6 +85,7 @@ export const ProfitByBrandChart = ({ data }: ProfitByBrandChartProps) => {
               fill="hsl(38 92% 50%)"
               radius={[4, 4, 0, 0]}
               barSize={32}
+              className="hover:opacity-80 transition-opacity"
             />
             <Line 
               yAxisId="right"
