@@ -257,6 +257,24 @@ export const aggregateData = (data: DashboardData, filters: Filters): Aggregated
     .map(([city, data]) => ({ city, ...data }))
     .sort((a, b) => b.revenue - a.revenue);
   
+  // Profit vs Sales by Segment
+  const segmentMetrics = new Map<string, { revenue: number; profit: number; quantity: number }>();
+  filteredSales.forEach(sale => {
+    const model = data.models.find(m => m.ModelID === sale.ModelID);
+    if (model) {
+      const current = segmentMetrics.get(model.Segment) || { revenue: 0, profit: 0, quantity: 0 };
+      segmentMetrics.set(model.Segment, {
+        revenue: current.revenue + sale.TotalPrice,
+        profit: current.profit + sale.TotalProfit,
+        quantity: current.quantity + sale.Quantity,
+      });
+    }
+  });
+  
+  const profitVsSalesBySegment = Array.from(segmentMetrics.entries())
+    .map(([segment, metrics]) => ({ segment, ...metrics }))
+    .sort((a, b) => b.revenue - a.revenue);
+  
   return {
     totalRevenue,
     totalProfit,
@@ -268,6 +286,7 @@ export const aggregateData = (data: DashboardData, filters: Filters): Aggregated
     topCars,
     profitByBrand,
     revenueByCity,
+    profitVsSalesBySegment,
   };
 };
 

@@ -10,6 +10,7 @@ import { RevenueByCountryChart } from './RevenueByCountryChart';
 import { TopCarsChart } from './TopCarsChart';
 import { ProfitByBrandChart } from './ProfitByBrandChart';
 import { RevenueByCityChart } from './RevenueByCityChart';
+import { ProfitVsSalesBySegmentChart } from './ProfitVsSalesBySegmentChart';
 import { DrillDownModal, DrillDownData } from './DrillDownModal';
 
 interface DashboardProps {
@@ -126,6 +127,14 @@ export const Dashboard = ({ data, onReset }: DashboardProps) => {
           />
           <RevenueByCityChart 
             data={aggregated.revenueByCity} 
+            onDrillDown={handleDrillDown}
+          />
+        </div>
+        
+        {/* Charts Row 3 */}
+        <div className="grid grid-cols-1 gap-6">
+          <ProfitVsSalesBySegmentChart 
+            data={aggregated.profitVsSalesBySegment} 
             onDrillDown={handleDrillDown}
           />
         </div>

@@ -59,4 +59,5 @@ export interface AggregatedData {
   topCars: { model: string; brand: string; quantity: number }[];
   profitByBrand: { brand: string; profit: number; quantity: number }[];
   revenueByCity: { city: string; country: string; revenue: number }[];
+  profitVsSalesBySegment: { segment: string; revenue: number; profit: number; quantity: number }[];
 }

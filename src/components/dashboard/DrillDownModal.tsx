@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { formatCurrency, formatNumber } from '@/lib/dataProcessing';
 import { DashboardData, Sale } from '@/types/data';
 
-export type DrillDownType = 'country' | 'city' | 'brand' | 'model';
+export type DrillDownType = 'country' | 'city' | 'brand' | 'model' | 'segment';
 
 export interface DrillDownData {
   type: DrillDownType;
@@ -55,6 +55,12 @@ export const DrillDownModal = ({ isOpen, onClose, drillDownData, dashboardData }
           .map(m => m.ModelID);
         return dashboardData.sales.filter(s => modelIds.includes(s.ModelID));
       }
+      case 'segment': {
+        const modelIds = dashboardData.models
+          .filter(m => m.Segment === value)
+          .map(m => m.ModelID);
+        return dashboardData.sales.filter(s => modelIds.includes(s.ModelID));
+      }
       default:
         return [];
     }
@@ -89,6 +95,7 @@ export const DrillDownModal = ({ isOpen, onClose, drillDownData, dashboardData }
       case 'city': return 'City';
       case 'brand': return 'Brand';
       case 'model': return 'Model';
+      case 'segment': return 'Segment';
       default: return 'Data';
     }
   };
