@@ -8,7 +8,8 @@ interface RevenueByCountryChartProps {
   onDrillDown?: (data: DrillDownData) => void;
 }
 
-const COLORS = ['hsl(188 94% 43%)', 'hsl(263 70% 50%)'];
+// Ghana Green, Nigeria Green (slightly different shade)
+const COLORS = ['hsl(145 70% 45%)', 'hsl(340 60% 40%)'];
 
 const CustomTooltip = ({ active, payload }: any) => {
   if (active && payload && payload.length) {
@@ -16,7 +17,7 @@ const CustomTooltip = ({ active, payload }: any) => {
     return (
       <div className="bg-navy-light border border-border/50 rounded-lg p-3 shadow-xl">
         <p className="text-sm font-medium text-foreground">{data.country}</p>
-        <p className="text-sm text-cyan">{formatCurrency(data.revenue)}</p>
+        <p className="text-sm text-regal-green">{formatCurrency(data.revenue)}</p>
         <p className="text-xs text-muted-foreground">{data.percentage.toFixed(1)}% of total</p>
         <p className="text-xs text-muted-foreground mt-2 italic">Click for details</p>
       </div>

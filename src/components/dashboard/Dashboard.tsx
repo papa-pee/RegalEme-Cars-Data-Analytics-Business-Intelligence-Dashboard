@@ -1,6 +1,6 @@
 import { useState, useMemo, useCallback } from 'react';
 import { DollarSign, TrendingUp, Car, RefreshCcw } from 'lucide-react';
-import exodusLogo from '@/assets/exodus-logo.png';
+import regalemeLogo from '@/assets/regaleme-logo.png';
 import { Button } from '@/components/ui/button';
 import { DashboardData, Filters } from '@/types/data';
 import { aggregateData, formatCurrency, formatNumber } from '@/lib/dataProcessing';
@@ -53,13 +53,13 @@ export const Dashboard = ({ data, onReset }: DashboardProps) => {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
             <img 
-              src={exodusLogo} 
-              alt="EXODUS Cars Logo" 
+              src={regalemeLogo} 
+              alt="RegalEme Cars Logo" 
               className="h-16 w-auto"
             />
             <div>
               <h1 className="text-3xl font-display font-bold">
-                <span className="text-gold gold-glow">EXODUS</span>
+                <span className="text-regal-green green-glow">RegalEme</span>
                 <span className="text-foreground"> Cars</span>
               </h1>
               <p className="text-muted-foreground mt-1">Sales & Market Performance Dashboard</p>
@@ -142,7 +142,7 @@ export const Dashboard = ({ data, onReset }: DashboardProps) => {
         {/* Footer */}
         <div className="pt-6 border-t border-border/30 text-center">
           <p className="text-sm text-muted-foreground">
-            EXODUS Cars Analytics Dashboard • Data last updated: {new Date().toLocaleDateString()}
+            RegalEme Cars Analytics Dashboard • Data last updated: {new Date().toLocaleDateString()}
           </p>
         </div>
       </div>

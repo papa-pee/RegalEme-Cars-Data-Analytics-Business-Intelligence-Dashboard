@@ -8,7 +8,8 @@ interface TopCarsChartProps {
   onDrillDown?: (data: DrillDownData) => void;
 }
 
-const COLORS = ['hsl(43 74% 52%)', 'hsl(38 80% 45%)', 'hsl(43 50% 40%)'];
+// Green shades for quantity
+const COLORS = ['hsl(145 70% 50%)', 'hsl(145 65% 42%)', 'hsl(145 55% 35%)'];
 
 const CustomTooltip = ({ active, payload }: any) => {
   if (active && payload && payload.length) {
@@ -17,7 +18,7 @@ const CustomTooltip = ({ active, payload }: any) => {
       <div className="bg-navy-light border border-border/50 rounded-lg p-3 shadow-xl">
         <p className="text-sm font-medium text-foreground">{data.model}</p>
         <p className="text-xs text-muted-foreground mb-1">{data.brand}</p>
-        <p className="text-sm text-gold">{formatNumber(data.quantity)} units sold</p>
+        <p className="text-sm text-regal-green">{formatNumber(data.quantity)} units sold</p>
         <p className="text-xs text-muted-foreground mt-2 italic">Click for details</p>
       </div>
     );
@@ -54,17 +55,17 @@ export const TopCarsChart = ({ data, onDrillDown }: TopCarsChartProps) => {
               type="number" 
               axisLine={false}
               tickLine={false}
-              tick={{ fill: 'hsl(215 20% 65%)', fontSize: 12 }}
+              tick={{ fill: 'hsl(150 10% 65%)', fontSize: 12 }}
             />
             <YAxis 
               type="category" 
               dataKey="model"
               axisLine={false}
               tickLine={false}
-              tick={{ fill: 'hsl(210 40% 98%)', fontSize: 12 }}
+              tick={{ fill: 'hsl(0 0% 98%)', fontSize: 12 }}
               width={120}
             />
-            <Tooltip content={<CustomTooltip />} cursor={{ fill: 'hsl(220 30% 15%)' }} />
+            <Tooltip content={<CustomTooltip />} cursor={{ fill: 'hsl(150 15% 15%)' }} />
             <Bar 
               dataKey="quantity" 
               radius={[0, 4, 4, 0]}

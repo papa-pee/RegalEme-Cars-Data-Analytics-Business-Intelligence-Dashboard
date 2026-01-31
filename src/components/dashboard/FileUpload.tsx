@@ -63,7 +63,7 @@ export const FileUpload = ({ onDataLoaded }: FileUploadProps) => {
         {/* Logo and Title */}
         <div className="text-center mb-12">
           <h1 className="text-4xl font-display font-bold mb-2">
-            <span className="text-gold gold-glow">EXODUS</span>
+            <span className="text-regal-green green-glow">RegalEme</span>
             <span className="text-foreground"> Cars</span>
           </h1>
           <p className="text-muted-foreground text-lg">Sales & Market Performance Dashboard</p>
@@ -74,7 +74,7 @@ export const FileUpload = ({ onDataLoaded }: FileUploadProps) => {
           htmlFor="file-upload"
           className={cn(
             'upload-zone flex flex-col items-center justify-center cursor-pointer',
-            isDragging && 'border-gold/50 bg-gold/5',
+            isDragging && 'border-regal-green/50 bg-regal-green/5',
             isLoading && 'pointer-events-none opacity-75'
           )}
           onDrop={handleDrop}
@@ -92,7 +92,7 @@ export const FileUpload = ({ onDataLoaded }: FileUploadProps) => {
           
           {isLoading ? (
             <div className="flex flex-col items-center gap-4">
-              <div className="w-16 h-16 rounded-full border-4 border-gold/30 border-t-gold animate-spin" />
+              <div className="w-16 h-16 rounded-full border-4 border-regal-green/30 border-t-regal-green animate-spin" />
               <p className="text-muted-foreground">Processing {fileName}...</p>
             </div>
           ) : error ? (
@@ -109,9 +109,9 @@ export const FileUpload = ({ onDataLoaded }: FileUploadProps) => {
           ) : (
             <>
               <div className="relative mb-6">
-                <div className="absolute inset-0 bg-gold/20 rounded-full blur-xl animate-pulse" />
-                <div className="relative p-6 bg-navy-light rounded-full border border-gold/20">
-                  <Upload className="w-12 h-12 text-gold" />
+                <div className="absolute inset-0 bg-regal-green/20 rounded-full blur-xl animate-pulse" />
+                <div className="relative p-6 bg-navy-light rounded-full border border-regal-green/20">
+                  <Upload className="w-12 h-12 text-regal-green" />
                 </div>
               </div>
               <div className="text-center space-y-2">
@@ -135,15 +135,15 @@ export const FileUpload = ({ onDataLoaded }: FileUploadProps) => {
           <h3 className="text-sm font-semibold text-foreground mb-3">Expected Excel Format</h3>
           <div className="grid grid-cols-3 gap-4 text-sm">
             <div>
-              <p className="text-gold font-medium mb-1">Sheet 1: dealers</p>
+              <p className="text-regal-green font-medium mb-1">Sheet 1: dealers</p>
               <p className="text-muted-foreground text-xs">DealerID, DealerName, City, Country</p>
             </div>
             <div>
-              <p className="text-royal-light font-medium mb-1">Sheet 2: models</p>
+              <p className="text-burgundy-light font-medium mb-1">Sheet 2: models</p>
               <p className="text-muted-foreground text-xs">ModelID, Brand, Model, Segment, etc.</p>
             </div>
             <div>
-              <p className="text-cyan font-medium mb-1">Sheet 3: sales</p>
+              <p className="text-foreground font-medium mb-1">Sheet 3: sales</p>
               <p className="text-muted-foreground text-xs">SaleID, Date, DealerID, ModelID, etc.</p>
             </div>
           </div>
