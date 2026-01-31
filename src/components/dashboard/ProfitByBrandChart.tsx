@@ -57,13 +57,13 @@ export const ProfitByBrandChart = ({ data, onDrillDown }: ProfitByBrandChartProp
               dataKey="brand" 
               axisLine={false}
               tickLine={false}
-              tick={{ fill: 'hsl(210 40% 98%)', fontSize: 12 }}
+              tick={{ fill: 'hsl(0 0% 98%)', fontSize: 12 }}
             />
             <YAxis 
               yAxisId="left"
               axisLine={false}
               tickLine={false}
-              tick={{ fill: 'hsl(215 20% 65%)', fontSize: 12 }}
+              tick={{ fill: 'hsl(150 10% 65%)', fontSize: 12 }}
               tickFormatter={(value) => `${(value / 1000).toFixed(0)}k`}
             />
             <YAxis 
@@ -71,9 +71,9 @@ export const ProfitByBrandChart = ({ data, onDrillDown }: ProfitByBrandChartProp
               orientation="right"
               axisLine={false}
               tickLine={false}
-              tick={{ fill: 'hsl(215 20% 65%)', fontSize: 12 }}
+              tick={{ fill: 'hsl(150 10% 65%)', fontSize: 12 }}
             />
-            <Tooltip content={<CustomTooltip />} cursor={{ fill: 'hsl(220 30% 15%)' }} />
+            <Tooltip content={<CustomTooltip />} cursor={{ fill: 'hsl(150 15% 15%)' }} />
             <Legend 
               wrapperStyle={{ paddingTop: 20 }}
               formatter={(value) => <span className="text-sm text-foreground">{value}</span>}
@@ -82,7 +82,7 @@ export const ProfitByBrandChart = ({ data, onDrillDown }: ProfitByBrandChartProp
               yAxisId="left"
               dataKey="quantity" 
               name="Quantity"
-              fill="hsl(38 92% 50%)"
+              fill="hsl(0 0% 95%)"
               radius={[4, 4, 0, 0]}
               barSize={32}
               className="hover:opacity-80 transition-opacity"
@@ -92,10 +92,10 @@ export const ProfitByBrandChart = ({ data, onDrillDown }: ProfitByBrandChartProp
               type="monotone" 
               dataKey="profit" 
               name="Profit"
-              stroke="hsl(263 70% 50%)"
+              stroke="hsl(340 60% 45%)"
               strokeWidth={3}
-              dot={{ fill: 'hsl(263 70% 50%)', strokeWidth: 0, r: 5 }}
-              activeDot={{ r: 7, stroke: 'hsl(263 70% 65%)', strokeWidth: 2 }}
+              dot={{ fill: 'hsl(340 60% 45%)', strokeWidth: 0, r: 5 }}
+              activeDot={{ r: 7, stroke: 'hsl(340 65% 55%)', strokeWidth: 2 }}
             />
           </ComposedChart>
         </ResponsiveContainer>

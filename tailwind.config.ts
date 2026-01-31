@@ -61,6 +61,19 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        // RegalEme brand colors
+        regal: {
+          green: "hsl(var(--regal-green))",
+          "green-light": "hsl(var(--regal-green-light))",
+          "green-bright": "hsl(var(--regal-green-bright))",
+          "green-muted": "hsl(var(--regal-green-muted))",
+        },
+        burgundy: {
+          DEFAULT: "hsl(var(--burgundy))",
+          light: "hsl(var(--burgundy-light))",
+          bright: "hsl(var(--burgundy-bright))",
+        },
+        // Legacy color mappings for backward compatibility
         gold: {
           DEFAULT: "hsl(var(--gold))",
           light: "hsl(var(--gold-light))",
@@ -101,7 +114,7 @@ export default {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
-        "pulse-gold": {
+        "pulse-green": {
           "0%, 100%": { opacity: "1" },
           "50%": { opacity: "0.7" },
         },
@@ -117,7 +130,7 @@ export default {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        "pulse-gold": "pulse-gold 2s ease-in-out infinite",
+        "pulse-green": "pulse-green 2s ease-in-out infinite",
         "shimmer": "shimmer 2s linear infinite",
         "fade-in": "fade-in 0.5s ease-out forwards",
       },

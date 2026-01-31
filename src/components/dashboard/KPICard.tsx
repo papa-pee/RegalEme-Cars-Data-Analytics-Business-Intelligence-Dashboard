@@ -13,24 +13,24 @@ interface KPICardProps {
 
 const variantStyles = {
   gold: {
-    iconBg: 'bg-gold/10',
-    iconColor: 'text-gold',
+    iconBg: 'bg-regal-green/10',
+    iconColor: 'text-regal-green',
     valueClass: 'kpi-value',
   },
   blue: {
-    iconBg: 'bg-royal/10',
-    iconColor: 'text-royal-light',
-    valueClass: 'text-royal-light text-3xl font-bold',
+    iconBg: 'bg-burgundy/10',
+    iconColor: 'text-burgundy-light',
+    valueClass: 'text-burgundy-light text-3xl font-bold',
   },
   cyan: {
-    iconBg: 'bg-cyan/10',
-    iconColor: 'text-cyan',
-    valueClass: 'text-cyan text-3xl font-bold',
+    iconBg: 'bg-foreground/10',
+    iconColor: 'text-foreground',
+    valueClass: 'text-foreground text-3xl font-bold',
   },
   violet: {
-    iconBg: 'bg-violet/10',
-    iconColor: 'text-violet-light',
-    valueClass: 'text-violet-light text-3xl font-bold',
+    iconBg: 'bg-burgundy/10',
+    iconColor: 'text-burgundy-light',
+    valueClass: 'text-burgundy-light text-3xl font-bold',
   },
 };
 
@@ -82,7 +82,7 @@ export const KPICard = ({
       </div>
       
       {/* Decorative gradient line */}
-      <div className="absolute bottom-0 left-6 right-6 h-px bg-gradient-to-r from-transparent via-gold/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      <div className="absolute bottom-0 left-6 right-6 h-px bg-gradient-to-r from-transparent via-regal-green/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
     </div>
   );
 };

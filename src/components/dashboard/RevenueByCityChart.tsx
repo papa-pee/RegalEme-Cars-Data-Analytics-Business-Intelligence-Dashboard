@@ -15,7 +15,7 @@ const CustomTooltip = ({ active, payload }: any) => {
       <div className="bg-navy-light border border-border/50 rounded-lg p-3 shadow-xl">
         <p className="text-sm font-medium text-foreground">{data.city}</p>
         <p className="text-xs text-muted-foreground mb-1">{data.country}</p>
-        <p className="text-sm text-cyan">{formatCurrency(data.revenue)}</p>
+        <p className="text-sm text-regal-green">{formatCurrency(data.revenue)}</p>
         <p className="text-xs text-muted-foreground mt-2 italic">Click for details</p>
       </div>
     );
@@ -54,7 +54,7 @@ export const RevenueByCityChart = ({ data, onDrillDown }: RevenueByCityChartProp
               dataKey="city" 
               axisLine={false}
               tickLine={false}
-              tick={{ fill: 'hsl(210 40% 98%)', fontSize: 11 }}
+              tick={{ fill: 'hsl(0 0% 98%)', fontSize: 11 }}
               angle={-45}
               textAnchor="end"
               interval={0}
@@ -62,19 +62,19 @@ export const RevenueByCityChart = ({ data, onDrillDown }: RevenueByCityChartProp
             <YAxis 
               axisLine={false}
               tickLine={false}
-              tick={{ fill: 'hsl(215 20% 65%)', fontSize: 12 }}
+              tick={{ fill: 'hsl(150 10% 65%)', fontSize: 12 }}
               tickFormatter={(value) => `$${(value / 1000).toFixed(0)}k`}
             />
-            <Tooltip content={<CustomTooltip />} cursor={{ fill: 'hsl(220 30% 15%)' }} />
+            <Tooltip content={<CustomTooltip />} cursor={{ fill: 'hsl(150 15% 15%)' }} />
             <defs>
-              <linearGradient id="cyanGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="hsl(188 94% 50%)" />
-                <stop offset="100%" stopColor="hsl(188 94% 35%)" />
+              <linearGradient id="greenGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="hsl(145 75% 50%)" />
+                <stop offset="100%" stopColor="hsl(145 65% 35%)" />
               </linearGradient>
             </defs>
             <Bar 
               dataKey="revenue" 
-              fill="url(#cyanGradient)"
+              fill="url(#greenGradient)"
               radius={[4, 4, 0, 0]}
               barSize={24}
               onClick={handleBarClick}
